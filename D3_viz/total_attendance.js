@@ -5,7 +5,7 @@ const margin    = { top: 40, right: 20, bottom: 40, left: 150 };
 const rowHeight = 25;
 
 (async () => {
-  const data = await d3.csv("Data/all_events_clean-years.csv", d3.autoType);
+  const data = await d3.csv("Data/all-events-clean-years.csv", d3.autoType);
   const rolled = Array.from(
     d3.rollup(
       data,
