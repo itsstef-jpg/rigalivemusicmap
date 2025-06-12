@@ -21,7 +21,7 @@ function bindTooltip(selection, render) {
 
 (async () => {
   // 1) load & normalize
-  const raw    = await d3.csv("Data/2nd_clean_pass/Data/venues_cleaned.csv", d3.autoType);
+  const raw    = await d3.csv("Data/venues_cleaned.csv", d3.autoType);
   const venues = raw.map(d => ({
     name:     d.Name,
     type:     d.Type,
