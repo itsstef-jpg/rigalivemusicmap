@@ -4,6 +4,10 @@
     padding-top: 2%;
 } */
 
+body {
+  padding: 5%;
+}
+
 #container {
   overflow-x: auto;
   padding-bottom: 10px;
