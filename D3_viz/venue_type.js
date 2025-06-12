@@ -19,7 +19,7 @@ function bindTooltip(selection, renderHTML) {
 
 (async () => {
   // 1) Load and normalize
-  const raw = await d3.csv("Data/venues.csv", d3.autoType);
+  const raw = await d3.csv("Data/2nd_clean_pass/Data/venues_cleaned.csv", d3.autoType);
   const venues = raw.map(d => ({ name: d.Name, type: d.Type, capacity: d.Capacity }));
 
   // ── Chart 1: Bubble-pack counts by type ───────────────────────────────
