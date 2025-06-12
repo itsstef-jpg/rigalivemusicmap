@@ -10,7 +10,8 @@
         <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
@@ -35,12 +36,13 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="data/VenueTypes_1.js"></script>
-        <script src="data/Capacity_2.js"></script>
-        <script src="data/ActiveInactive_3.js"></script>
-        <script src="data/Venues_4.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/Apkaimes_1.js"></script>
+        <script src="data/VenueFilters_2.js"></script>
+        <script src="data/Venues_3.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -110,7 +112,6 @@
             if (bounds_group.getLayers().length) {
                 map.fitBounds(bounds_group.getBounds());
             }
-            map.setMaxBounds(map.getBounds());
         }
         map.createPane('pane_ESRIGraylight_0');
         map.getPane('pane_ESRIGraylight_0').style.zIndex = 400;
@@ -125,7 +126,7 @@
         });
         layer_ESRIGraylight_0;
         map.addLayer(layer_ESRIGraylight_0);
-        function pop_VenueTypes_1(feature, layer) {
+        function pop_Apkaimes_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -144,14 +145,6 @@
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">Name</th>\
-                        <td class="visible-with-data" id="Name">' + (feature.properties['Name'] !== null ? autolinker.link(String(feature.properties['Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Type</th>\
-                        <td class="visible-with-data" id="Type">' + (feature.properties['Type'] !== null ? autolinker.link(String(feature.properties['Type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -160,842 +153,894 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_VenueTypes_1_0(feature) {
-            switch(String(feature.properties['Type'])) {
-                case 'Art Gallery':
+        function style_Apkaimes_1_0(feature) {
+            switch(String(feature.properties['apkaime'])) {
+                case 'Āgenskalns':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(131,206,52,1.0)',
-                interactive: true,
+                fillColor: 'rgba(219,240,127,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Art Gallery, Club':
+                case 'Atgāzene':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(114,226,176,1.0)',
-                interactive: true,
+                fillColor: 'rgba(27,239,186,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Bar':
+                case 'Avoti':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(64,239,195,1.0)',
-                interactive: true,
+                fillColor: 'rgba(107,212,62,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Bar, Cultural Centre':
+                case 'Beberbeķi':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(214,65,102,1.0)',
-                interactive: true,
+                fillColor: 'rgba(158,119,216,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Bar, Open-air Venue':
+                case 'Berģi':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(78,202,120,1.0)',
-                interactive: true,
+                fillColor: 'rgba(21,45,224,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Bike Shop':
+                case 'Bieriņi':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(204,119,122,1.0)',
-                interactive: true,
+                fillColor: 'rgba(224,219,77,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Bookshop':
+                case 'Bišumuiža':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(53,162,234,1.0)',
-                interactive: true,
+                fillColor: 'rgba(74,162,213,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Bookshop, Bar':
+                case 'Bolderāja':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(59,53,218,1.0)',
-                interactive: true,
+                fillColor: 'rgba(99,209,215,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Cafe':
+                case 'Brasa':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(240,132,65,1.0)',
-                interactive: true,
+                fillColor: 'rgba(175,96,228,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Cafe, Bar':
+                case 'Brekši':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(239,60,182,1.0)',
-                interactive: true,
+                fillColor: 'rgba(60,204,62,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Church':
+                case 'Bukulti':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(170,126,220,1.0)',
-                interactive: true,
+                fillColor: 'rgba(211,120,45,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Clothing Store':
+                case 'Buļļi':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(23,222,215,1.0)',
-                interactive: true,
+                fillColor: 'rgba(135,237,62,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Club':
+                case 'Centrs':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(77,208,93,1.0)',
-                interactive: true,
+                fillColor: 'rgba(34,183,233,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Club, Concert Hall':
+                case 'Čiekurkalns':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(213,124,203,1.0)',
-                interactive: true,
+                fillColor: 'rgba(29,235,204,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Concert Hall':
+                case 'Dārzciems':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(23,55,212,1.0)',
-                interactive: true,
+                fillColor: 'rgba(206,165,29,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Cultual Centre':
+                case 'Dārziņi':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(204,115,157,1.0)',
-                interactive: true,
+                fillColor: 'rgba(238,66,184,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Cultural Centre':
+                case 'Daugavgrīva':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(233,161,46,1.0)',
-                interactive: true,
+                fillColor: 'rgba(216,101,227,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Cultural Quarter':
+                case 'Dreiliņi':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(221,228,81,1.0)',
-                interactive: true,
+                fillColor: 'rgba(63,65,203,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Gallery':
+                case 'Dzirciems':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(160,208,27,1.0)',
-                interactive: true,
+                fillColor: 'rgba(207,123,162,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Market':
+                case 'Grīziņkalns':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(59,115,205,1.0)',
-                interactive: true,
+                fillColor: 'rgba(220,110,139,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Open-air Venue':
+                case 'Iļģuciems':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(171,92,208,1.0)',
-                interactive: true,
+                fillColor: 'rgba(201,80,101,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Pop-up Venue':
+                case 'Imanta':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(109,196,216,1.0)',
-                interactive: true,
+                fillColor: 'rgba(116,217,139,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Pop-up Venue, Open-air Venue':
+                case 'Jaunciems':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(144,228,105,1.0)',
-                interactive: true,
+                fillColor: 'rgba(209,192,80,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Restaurant':
+                case 'Jugla':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(214,196,108,1.0)',
-                interactive: true,
+                fillColor: 'rgba(209,57,49,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Theatre':
+                case 'Katlakalns':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(144,117,223,1.0)',
-                interactive: true,
+                fillColor: 'rgba(96,144,206,0.119)',
+                interactive: false,
             }
                     break;
-                case 'Theatre, Club':
+                case 'Ķengarags':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(206,124,215,1.0)',
-                interactive: true,
+                fillColor: 'rgba(222,89,17,0.119)',
+                interactive: false,
             }
                     break;
-                case 'University':
+                case 'Ķīpsala':
                     return {
-                pane: 'pane_VenueTypes_1',
-                radius: 4.8,
+                pane: 'pane_Apkaimes_1',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.119)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(141,231,130,1.0)',
-                interactive: true,
+                fillColor: 'rgba(42,239,167,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Kleisti':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(151,84,217,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Kundziņsala':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(223,70,80,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Latgale':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(58,24,208,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Mangaļsala':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(54,103,200,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Mežaparks':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(123,221,18,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Mežciems':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,171,101,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Mīlgrāvis':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(236,20,211,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Mūkupurvs':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(171,207,114,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Pētersala-Andrejsala':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,80,212,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Pļavnieki':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(192,200,76,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Pleskodāle':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(16,179,208,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Purvciems':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,54,23,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Rumbula':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,111,76,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Salas':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(84,219,212,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Šampēteris':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(110,208,143,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Sarkandaugava':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,145,41,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Skanste':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(69,28,236,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Šķirotava':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(217,77,159,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Spilve':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(94,38,233,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Suži':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(201,120,221,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Teika':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(71,232,56,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Torņakalns':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(45,210,117,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Trīsciems':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(20,64,207,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Vecāķi':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,44,107,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Vecdaugava':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(73,231,38,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Vecmīlgrāvis':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(15,228,40,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Vecpilsēta':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(187,232,73,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Voleri':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(139,131,230,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Zasulauks':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,46,178,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Ziepniekkalns':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,200,125,0.119)',
+                interactive: false,
+            }
+                    break;
+                case 'Zolitūde':
+                    return {
+                pane: 'pane_Apkaimes_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.119)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(166,42,219,0.119)',
+                interactive: false,
             }
                     break;
             }
         }
-        map.createPane('pane_VenueTypes_1');
-        map.getPane('pane_VenueTypes_1').style.zIndex = 401;
-        map.getPane('pane_VenueTypes_1').style['mix-blend-mode'] = 'normal';
-        var layer_VenueTypes_1 = new L.geoJson(json_VenueTypes_1, {
+        map.createPane('pane_Apkaimes_1');
+        map.getPane('pane_Apkaimes_1').style.zIndex = 401;
+        map.getPane('pane_Apkaimes_1').style['mix-blend-mode'] = 'hard-light';
+        var layer_Apkaimes_1 = new L.geoJson(json_Apkaimes_1, {
             attribution: '',
-            interactive: true,
-            dataVar: 'json_VenueTypes_1',
-            layerName: 'layer_VenueTypes_1',
-            pane: 'pane_VenueTypes_1',
-            onEachFeature: pop_VenueTypes_1,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_VenueTypes_1_0(feature));
-            },
+            interactive: false,
+            dataVar: 'json_Apkaimes_1',
+            layerName: 'layer_Apkaimes_1',
+            pane: 'pane_Apkaimes_1',
+            onEachFeature: pop_Apkaimes_1,
+            style: style_Apkaimes_1_0,
         });
-        bounds_group.addLayer(layer_VenueTypes_1);
-        map.addLayer(layer_VenueTypes_1);
-        function pop_Capacity_2(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">Name</th>\
-                        <td class="visible-with-data" id="Name">' + (feature.properties['Name'] !== null ? autolinker.link(String(feature.properties['Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Capacity</th>\
-                        <td class="visible-with-data" id="Capacity">' + (feature.properties['Capacity'] !== null ? autolinker.link(String(feature.properties['Capacity']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_Capacity_2_0(feature) {
-            switch(String(feature.properties['Capacity'])) {
-                case '100':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(213,227,133,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '1000':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(215,61,161,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '14500':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(168,231,91,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '150':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(212,79,208,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '1500':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(15,222,146,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '1800':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(239,168,81,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '200':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(196,119,224,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '2100':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(92,112,215,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '250':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(231,149,122,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '30':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(137,62,234,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '300':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(35,166,206,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '33000':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(202,77,83,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '400':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(136,225,166,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '450':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(93,73,223,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '50':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(39,205,48,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '500':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(237,208,46,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '600':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(69,139,220,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '70':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(145,240,234,1.0)',
-                interactive: true,
-            }
-                    break;
-                case '803':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(74,217,26,1.0)',
-                interactive: true,
-            }
-                    break;
-                case 'n/a':
-                    return {
-                pane: 'pane_Capacity_2',
-                radius: 4.8,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(214,107,144,1.0)',
-                interactive: true,
-            }
-                    break;
-            }
-        }
-        map.createPane('pane_Capacity_2');
-        map.getPane('pane_Capacity_2').style.zIndex = 402;
-        map.getPane('pane_Capacity_2').style['mix-blend-mode'] = 'normal';
-        var layer_Capacity_2 = new L.geoJson(json_Capacity_2, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_Capacity_2',
-            layerName: 'layer_Capacity_2',
-            pane: 'pane_Capacity_2',
-            onEachFeature: pop_Capacity_2,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_Capacity_2_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_Capacity_2);
-        map.addLayer(layer_Capacity_2);
-        function pop_ActiveInactive_3(feature, layer) {
+        bounds_group.addLayer(layer_Apkaimes_1);
+        function pop_VenueFilters_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -1022,6 +1067,22 @@
                         <th scope="row">Is Active</th>\
                         <td class="visible-with-data" id="Is Active">' + (feature.properties['Is Active'] !== null ? autolinker.link(String(feature.properties['Is Active']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
+                    <tr>\
+                        <th scope="row">Facebook Page</th>\
+                        <td class="visible-with-data" id="Facebook Page">' + (feature.properties['Facebook Page'] !== null ? autolinker.link(String(feature.properties['Facebook Page']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Address</th>\
+                        <td class="visible-with-data" id="Address">' + (feature.properties['Address'] !== null ? autolinker.link(String(feature.properties['Address']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Capacity</th>\
+                        <td class="visible-with-data" id="Capacity">' + (feature.properties['Capacity'] !== null ? autolinker.link(String(feature.properties['Capacity']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['Type'] !== null ? autolinker.link(String(feature.properties['Type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -1030,63 +1091,495 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_ActiveInactive_3_0(feature) {
-            switch(String(feature.properties['Is Active'])) {
+        function style_VenueFilters_2_0(feature) {
+            switch(String(feature.properties['Type'])) {
                 case 'Active':
                     return {
-                pane: 'pane_ActiveInactive_3',
+                pane: 'pane_VenueFilters_2',
                 radius: 4.8,
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(7,56,42,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(85,164,76,1.0)',
+                fillColor: 'rgba(77,217,151,1.0)',
                 interactive: true,
             }
                     break;
                 case 'Inactive':
                     return {
-                pane: 'pane_ActiveInactive_3',
+                pane: 'pane_VenueFilters_2',
                 radius: 4.8,
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(7,56,42,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(229,132,77,1.0)',
+                fillColor: 'rgba(227,117,67,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Art Gallery':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(151,89,227,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Art Gallery, Club':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(22,61,215,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bar':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,253,229,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bar, Cultural Centre':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(78,220,208,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bar, Open-air Venue':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(91,147,171,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bike Shop':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(127,173,90,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bookshop':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(237,85,105,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bookshop, Bar':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(79,135,77,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Cafe':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(154,29,22,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Cafe, Bar':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(163,149,89,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Church':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(158,95,119,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Clothing Store':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(171,41,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Club':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(212,196,19,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Club, Concert Hall':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(149,131,88,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Concert Hall':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(38,191,214,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Cultual Centre':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(197,104,192,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Cultural Centre':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(144,34,14,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Cultural Quarter':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(143,10,65,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Gallery':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(57,161,170,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Market':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(78,209,185,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Open-air Venue':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,121,134,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pop-up Venue':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,237,115,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Pop-up Venue, Open-air Venue':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(174,174,19,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Restaurant':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,76,211,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Theatre':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(184,125,247,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Theatre, Club':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(140,103,80,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'University':
+                    return {
+                pane: 'pane_VenueFilters_2',
+                radius: 4.8,
+                opacity: 1,
+                color: 'rgba(7,56,42,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(137,27,95,1.0)',
                 interactive: true,
             }
                     break;
             }
         }
-        map.createPane('pane_ActiveInactive_3');
-        map.getPane('pane_ActiveInactive_3').style.zIndex = 403;
-        map.getPane('pane_ActiveInactive_3').style['mix-blend-mode'] = 'normal';
-        var layer_ActiveInactive_3 = new L.geoJson(json_ActiveInactive_3, {
+        map.createPane('pane_VenueFilters_2');
+        map.getPane('pane_VenueFilters_2').style.zIndex = 402;
+        map.getPane('pane_VenueFilters_2').style['mix-blend-mode'] = 'normal';
+        var layer_VenueFilters_2 = new L.geoJson(json_VenueFilters_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_ActiveInactive_3',
-            layerName: 'layer_ActiveInactive_3',
-            pane: 'pane_ActiveInactive_3',
-            onEachFeature: pop_ActiveInactive_3,
+            dataVar: 'json_VenueFilters_2',
+            layerName: 'layer_VenueFilters_2',
+            pane: 'pane_VenueFilters_2',
+            onEachFeature: pop_VenueFilters_2,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_ActiveInactive_3_0(feature));
+                return L.circleMarker(latlng, style_VenueFilters_2_0(feature));
             },
         });
-        bounds_group.addLayer(layer_ActiveInactive_3);
-        map.addLayer(layer_ActiveInactive_3);
-        function pop_Venues_4(feature, layer) {
+        bounds_group.addLayer(layer_VenueFilters_2);
+        map.addLayer(layer_VenueFilters_2);
+        function pop_Venues_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -1137,57 +1630,46 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_Venues_4_0() {
+        function style_Venues_3_0() {
             return {
-                pane: 'pane_Venues_4',
-                radius: 4.800000000000001,
+                pane: 'pane_Venues_3',
+                radius: 4.8,
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(7,56,42,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(85,164,76,1.0)',
+                fillColor: 'rgba(60,217,118,1.0)',
                 interactive: true,
             }
         }
-        map.createPane('pane_Venues_4');
-        map.getPane('pane_Venues_4').style.zIndex = 404;
-        map.getPane('pane_Venues_4').style['mix-blend-mode'] = 'normal';
-        var layer_Venues_4 = new L.geoJson(json_Venues_4, {
+        map.createPane('pane_Venues_3');
+        map.getPane('pane_Venues_3').style.zIndex = 403;
+        map.getPane('pane_Venues_3').style['mix-blend-mode'] = 'normal';
+        var layer_Venues_3 = new L.geoJson(json_Venues_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Venues_4',
-            layerName: 'layer_Venues_4',
-            pane: 'pane_Venues_4',
-            onEachFeature: pop_Venues_4,
+            dataVar: 'json_Venues_3',
+            layerName: 'layer_Venues_3',
+            pane: 'pane_Venues_3',
+            onEachFeature: pop_Venues_3,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_Venues_4_0(feature));
+                return L.circleMarker(latlng, style_Venues_3_0(feature));
             },
         });
-        bounds_group.addLayer(layer_Venues_4);
-        map.addLayer(layer_Venues_4);
-        var osmGeocoder = new L.Control.Geocoder({
-            collapsed: true,
-            position: 'topleft',
-            text: 'Search',
-            title: 'Testing'
-        }).addTo(map);
-        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .className += ' fa fa-search';
-        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .title += 'Search for a place';
+        bounds_group.addLayer(layer_Venues_3);
+        map.addLayer(layer_Venues_3);
         var overlaysTree = [
-            {label: '<img src="legend/Venues_4.png" /> Venues', layer: layer_Venues_4},
-            {label: 'Active/Inactive<br /><table><tr><td style="text-align: center;"><img src="legend/ActiveInactive_3_Active0.png" /></td><td>Active</td></tr><tr><td style="text-align: center;"><img src="legend/ActiveInactive_3_Inactive1.png" /></td><td>Inactive</td></tr></table>', layer: layer_ActiveInactive_3},
-            {label: 'Capacity<br /><table><tr><td style="text-align: center;"><img src="legend/Capacity_2_1000.png" /></td><td>100</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_10001.png" /></td><td>1000</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_145002.png" /></td><td>14500</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_1503.png" /></td><td>150</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_15004.png" /></td><td>1500</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_18005.png" /></td><td>1800</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_2006.png" /></td><td>200</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_21007.png" /></td><td>2100</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_2508.png" /></td><td>250</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_309.png" /></td><td>30</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_30010.png" /></td><td>300</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_3300011.png" /></td><td>33000</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_40012.png" /></td><td>400</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_45013.png" /></td><td>450</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_5014.png" /></td><td>50</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_50015.png" /></td><td>500</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_60016.png" /></td><td>600</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_7017.png" /></td><td>70</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_80318.png" /></td><td>803</td></tr><tr><td style="text-align: center;"><img src="legend/Capacity_2_na19.png" /></td><td>n/a</td></tr></table>', layer: layer_Capacity_2},
-            {label: 'Venue Types<br /><table><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_ArtGallery0.png" /></td><td>Art Gallery</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_ArtGalleryClub1.png" /></td><td>Art Gallery, Club</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Bar2.png" /></td><td>Bar</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_BarCulturalCentre3.png" /></td><td>Bar, Cultural Centre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_BarOpenairVenue4.png" /></td><td>Bar, Open-air Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_BikeShop5.png" /></td><td>Bike Shop</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Bookshop6.png" /></td><td>Bookshop</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_BookshopBar7.png" /></td><td>Bookshop, Bar</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Cafe8.png" /></td><td>Cafe</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_CafeBar9.png" /></td><td>Cafe, Bar</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Church10.png" /></td><td>Church</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_ClothingStore11.png" /></td><td>Clothing Store</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Club12.png" /></td><td>Club</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_ClubConcertHall13.png" /></td><td>Club, Concert Hall</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_ConcertHall14.png" /></td><td>Concert Hall</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_CultualCentre15.png" /></td><td>Cultual Centre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_CulturalCentre16.png" /></td><td>Cultural Centre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_CulturalQuarter17.png" /></td><td>Cultural Quarter</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Gallery18.png" /></td><td>Gallery</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Market19.png" /></td><td>Market</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_OpenairVenue20.png" /></td><td>Open-air Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_PopupVenue21.png" /></td><td>Pop-up Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_PopupVenueOpenairVenue22.png" /></td><td>Pop-up Venue, Open-air Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Restaurant23.png" /></td><td>Restaurant</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_Theatre24.png" /></td><td>Theatre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_TheatreClub25.png" /></td><td>Theatre, Club</td></tr><tr><td style="text-align: center;"><img src="legend/VenueTypes_1_University26.png" /></td><td>University</td></tr></table>', layer: layer_VenueTypes_1},
+            {label: '<img src="legend/Venues_3.png" /> Venues', layer: layer_Venues_3},
+            {label: 'Venue Filters<br /><table><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Active0.png" /></td><td>Active</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Inactive1.png" /></td><td>Inactive</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_ArtGallery2.png" /></td><td>Art Gallery</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_ArtGalleryClub3.png" /></td><td>Art Gallery, Club</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Bar4.png" /></td><td>Bar</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_BarCulturalCentre5.png" /></td><td>Bar, Cultural Centre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_BarOpenairVenue6.png" /></td><td>Bar, Open-air Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_BikeShop7.png" /></td><td>Bike Shop</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Bookshop8.png" /></td><td>Bookshop</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_BookshopBar9.png" /></td><td>Bookshop, Bar</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Cafe10.png" /></td><td>Cafe</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_CafeBar11.png" /></td><td>Cafe, Bar</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Church12.png" /></td><td>Church</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_ClothingStore13.png" /></td><td>Clothing Store</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Club14.png" /></td><td>Club</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_ClubConcertHall15.png" /></td><td>Club, Concert Hall</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_ConcertHall16.png" /></td><td>Concert Hall</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_CultualCentre17.png" /></td><td>Cultual Centre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_CulturalCentre18.png" /></td><td>Cultural Centre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_CulturalQuarter19.png" /></td><td>Cultural Quarter</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Gallery20.png" /></td><td>Gallery</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Market21.png" /></td><td>Market</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_OpenairVenue22.png" /></td><td>Open-air Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_PopupVenue23.png" /></td><td>Pop-up Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_PopupVenueOpenairVenue24.png" /></td><td>Pop-up Venue, Open-air Venue</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Restaurant25.png" /></td><td>Restaurant</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_Theatre26.png" /></td><td>Theatre</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_TheatreClub27.png" /></td><td>Theatre, Club</td></tr><tr><td style="text-align: center;"><img src="legend/VenueFilters_2_University28.png" /></td><td>University</td></tr></table>', layer: layer_VenueFilters_2},
+            {label: 'Apkaimes<br /><table><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Āgenskalns0.png" /></td><td>Āgenskalns</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Atgāzene1.png" /></td><td>Atgāzene</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Avoti2.png" /></td><td>Avoti</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Beberbeķi3.png" /></td><td>Beberbeķi</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Berģi4.png" /></td><td>Berģi</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Bieriņi5.png" /></td><td>Bieriņi</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Bišumuiža6.png" /></td><td>Bišumuiža</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Bolderāja7.png" /></td><td>Bolderāja</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Brasa8.png" /></td><td>Brasa</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Brekši9.png" /></td><td>Brekši</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Bukulti10.png" /></td><td>Bukulti</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Buļļi11.png" /></td><td>Buļļi</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Centrs12.png" /></td><td>Centrs</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Čiekurkalns13.png" /></td><td>Čiekurkalns</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Dārzciems14.png" /></td><td>Dārzciems</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Dārziņi15.png" /></td><td>Dārziņi</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Daugavgrīva16.png" /></td><td>Daugavgrīva</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Dreiliņi17.png" /></td><td>Dreiliņi</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Dzirciems18.png" /></td><td>Dzirciems</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Grīziņkalns19.png" /></td><td>Grīziņkalns</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Iļģuciems20.png" /></td><td>Iļģuciems</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Imanta21.png" /></td><td>Imanta</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Jaunciems22.png" /></td><td>Jaunciems</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Jugla23.png" /></td><td>Jugla</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Katlakalns24.png" /></td><td>Katlakalns</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Ķengarags25.png" /></td><td>Ķengarags</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Ķīpsala26.png" /></td><td>Ķīpsala</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Kleisti27.png" /></td><td>Kleisti</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Kundziņsala28.png" /></td><td>Kundziņsala</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Latgale29.png" /></td><td>Latgale</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Mangaļsala30.png" /></td><td>Mangaļsala</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Mežaparks31.png" /></td><td>Mežaparks</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Mežciems32.png" /></td><td>Mežciems</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Mīlgrāvis33.png" /></td><td>Mīlgrāvis</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Mūkupurvs34.png" /></td><td>Mūkupurvs</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_PētersalaAndrejsala35.png" /></td><td>Pētersala-Andrejsala</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Pļavnieki36.png" /></td><td>Pļavnieki</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Pleskodāle37.png" /></td><td>Pleskodāle</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Purvciems38.png" /></td><td>Purvciems</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Rumbula39.png" /></td><td>Rumbula</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Salas40.png" /></td><td>Salas</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Šampēteris41.png" /></td><td>Šampēteris</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Sarkandaugava42.png" /></td><td>Sarkandaugava</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Skanste43.png" /></td><td>Skanste</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Šķirotava44.png" /></td><td>Šķirotava</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Spilve45.png" /></td><td>Spilve</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Suži46.png" /></td><td>Suži</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Teika47.png" /></td><td>Teika</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Torņakalns48.png" /></td><td>Torņakalns</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Trīsciems49.png" /></td><td>Trīsciems</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Vecāķi50.png" /></td><td>Vecāķi</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Vecdaugava51.png" /></td><td>Vecdaugava</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Vecmīlgrāvis52.png" /></td><td>Vecmīlgrāvis</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Vecpilsēta53.png" /></td><td>Vecpilsēta</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Voleri54.png" /></td><td>Voleri</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Zasulauks55.png" /></td><td>Zasulauks</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Ziepniekkalns56.png" /></td><td>Ziepniekkalns</td></tr><tr><td style="text-align: center;"><img src="legend/Apkaimes_1_Zolitūde57.png" /></td><td>Zolitūde</td></tr></table>', layer: layer_Apkaimes_1},
             {label: "ESRI Gray (light)", layer: layer_ESRIGraylight_0, radioGroup: 'bm' },]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
@@ -1200,6 +1682,469 @@
         });
         lay.addTo(map);
         setBounds();
+        var i = 0;
+        layer_Apkaimes_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['apkaime'] !== null?String('<div style="color: #323232; font-size: 9pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['apkaime']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Apkaimes_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Is Active": "str","Type": "str","Capacity": "str","Name": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_Apkaimes_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['apkaime'] !== null?String('<div style="color: #323232; font-size: 9pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['apkaime']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Apkaimes_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_IsActive = document.createElement('div');
+            div_IsActive.id = "div_IsActive";
+            div_IsActive.className= "filterselect";
+            document.getElementById("menu").appendChild(div_IsActive);
+            sel_IsActive = document.createElement('select');
+            sel_IsActive.multiple = true;
+            sel_IsActive.size = 2;
+            sel_IsActive.id = "sel_IsActive";
+            var IsActive_options_str = "<option value='' unselected></option>";
+            sel_IsActive.onchange = function(){filterFunc()};
+            IsActive_options_str  += '<option value="Active">Active</option>';
+            IsActive_options_str  += '<option value="Inactive">Inactive</option>';
+            sel_IsActive.innerHTML = IsActive_options_str;
+            div_IsActive.appendChild(sel_IsActive);
+            var lab_IsActive = document.createElement('div');
+            lab_IsActive.innerHTML = 'Is Active';
+            lab_IsActive.className = 'filterlabel';
+            div_IsActive.appendChild(lab_IsActive);
+            var reset_IsActive = document.createElement('div');
+            reset_IsActive.innerHTML = 'clear filter';
+            reset_IsActive.className = 'filterlabel';
+            reset_IsActive.onclick = function() {
+                var options = document.getElementById("sel_IsActive").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_IsActive.appendChild(reset_IsActive);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Type = document.createElement('div');
+            div_Type.id = "div_Type";
+            div_Type.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Type);
+            sel_Type = document.createElement('select');
+            sel_Type.multiple = true;
+            sel_Type.size = 10;
+            sel_Type.id = "sel_Type";
+            var Type_options_str = "<option value='' unselected></option>";
+            sel_Type.onchange = function(){filterFunc()};
+            Type_options_str  += '<option value="Art Gallery">Art Gallery</option>';
+            Type_options_str  += '<option value="Art Gallery, Club">Art Gallery, Club</option>';
+            Type_options_str  += '<option value="Bar">Bar</option>';
+            Type_options_str  += '<option value="Bar, Cultural Centre">Bar, Cultural Centre</option>';
+            Type_options_str  += '<option value="Bar, Open-air Venue">Bar, Open-air Venue</option>';
+            Type_options_str  += '<option value="Bike Shop">Bike Shop</option>';
+            Type_options_str  += '<option value="Bookshop">Bookshop</option>';
+            Type_options_str  += '<option value="Bookshop, Bar">Bookshop, Bar</option>';
+            Type_options_str  += '<option value="Cafe">Cafe</option>';
+            Type_options_str  += '<option value="Cafe, Bar">Cafe, Bar</option>';
+            Type_options_str  += '<option value="Church">Church</option>';
+            Type_options_str  += '<option value="Clothing Store">Clothing Store</option>';
+            Type_options_str  += '<option value="Club">Club</option>';
+            Type_options_str  += '<option value="Club, Concert Hall">Club, Concert Hall</option>';
+            Type_options_str  += '<option value="Concert Hall">Concert Hall</option>';
+            Type_options_str  += '<option value="Cultual Centre">Cultual Centre</option>';
+            Type_options_str  += '<option value="Cultural Centre">Cultural Centre</option>';
+            Type_options_str  += '<option value="Cultural Quarter">Cultural Quarter</option>';
+            Type_options_str  += '<option value="Gallery">Gallery</option>';
+            Type_options_str  += '<option value="Market">Market</option>';
+            Type_options_str  += '<option value="Open-air Venue">Open-air Venue</option>';
+            Type_options_str  += '<option value="Pop-up Venue">Pop-up Venue</option>';
+            Type_options_str  += '<option value="Pop-up Venue, Open-air Venue">Pop-up Venue, Open-air Venue</option>';
+            Type_options_str  += '<option value="Restaurant">Restaurant</option>';
+            Type_options_str  += '<option value="Theatre">Theatre</option>';
+            Type_options_str  += '<option value="Theatre, Club">Theatre, Club</option>';
+            Type_options_str  += '<option value="University">University</option>';
+            sel_Type.innerHTML = Type_options_str;
+            div_Type.appendChild(sel_Type);
+            var lab_Type = document.createElement('div');
+            lab_Type.innerHTML = 'Type';
+            lab_Type.className = 'filterlabel';
+            div_Type.appendChild(lab_Type);
+            var reset_Type = document.createElement('div');
+            reset_Type.innerHTML = 'clear filter';
+            reset_Type.className = 'filterlabel';
+            reset_Type.onclick = function() {
+                var options = document.getElementById("sel_Type").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Type.appendChild(reset_Type);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Capacity = document.createElement('div');
+            div_Capacity.id = "div_Capacity";
+            div_Capacity.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Capacity);
+            sel_Capacity = document.createElement('select');
+            sel_Capacity.multiple = true;
+            sel_Capacity.size = 10;
+            sel_Capacity.id = "sel_Capacity";
+            var Capacity_options_str = "<option value='' unselected></option>";
+            sel_Capacity.onchange = function(){filterFunc()};
+            Capacity_options_str  += '<option value="100">100</option>';
+            Capacity_options_str  += '<option value="1000">1000</option>';
+            Capacity_options_str  += '<option value="14500">14500</option>';
+            Capacity_options_str  += '<option value="150">150</option>';
+            Capacity_options_str  += '<option value="1500">1500</option>';
+            Capacity_options_str  += '<option value="1800">1800</option>';
+            Capacity_options_str  += '<option value="200">200</option>';
+            Capacity_options_str  += '<option value="2100">2100</option>';
+            Capacity_options_str  += '<option value="250">250</option>';
+            Capacity_options_str  += '<option value="30">30</option>';
+            Capacity_options_str  += '<option value="300">300</option>';
+            Capacity_options_str  += '<option value="33000">33000</option>';
+            Capacity_options_str  += '<option value="400">400</option>';
+            Capacity_options_str  += '<option value="450">450</option>';
+            Capacity_options_str  += '<option value="50">50</option>';
+            Capacity_options_str  += '<option value="500">500</option>';
+            Capacity_options_str  += '<option value="600">600</option>';
+            Capacity_options_str  += '<option value="70">70</option>';
+            Capacity_options_str  += '<option value="803">803</option>';
+            Capacity_options_str  += '<option value="n/a">n/a</option>';
+            sel_Capacity.innerHTML = Capacity_options_str;
+            div_Capacity.appendChild(sel_Capacity);
+            var lab_Capacity = document.createElement('div');
+            lab_Capacity.innerHTML = 'Capacity';
+            lab_Capacity.className = 'filterlabel';
+            div_Capacity.appendChild(lab_Capacity);
+            var reset_Capacity = document.createElement('div');
+            reset_Capacity.innerHTML = 'clear filter';
+            reset_Capacity.className = 'filterlabel';
+            reset_Capacity.onclick = function() {
+                var options = document.getElementById("sel_Capacity").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Capacity.appendChild(reset_Capacity);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Name = document.createElement('div');
+            div_Name.id = "div_Name";
+            div_Name.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Name);
+            sel_Name = document.createElement('select');
+            sel_Name.multiple = true;
+            sel_Name.size = 10;
+            sel_Name.id = "sel_Name";
+            var Name_options_str = "<option value='' unselected></option>";
+            sel_Name.onchange = function(){filterFunc()};
+            Name_options_str  += '<option value="1983">1983</option>';
+            Name_options_str  += '<option value="Aleponija">Aleponija</option>';
+            Name_options_str  += '<option value="Anglikāņu baznīca">Anglikāņu baznīca</option>';
+            Name_options_str  += '<option value="Angārs">Angārs</option>';
+            Name_options_str  += '<option value="Annas Dārzs">Annas Dārzs</option>';
+            Name_options_str  += '<option value="Ansamblis">Ansamblis</option>';
+            Name_options_str  += '<option value="Aristīds">Aristīds</option>';
+            Name_options_str  += '<option value="Auss">Auss</option>';
+            Name_options_str  += '<option value="Aussie Backpackers Pub">Aussie Backpackers Pub</option>';
+            Name_options_str  += '<option value="Autentika">Autentika</option>';
+            Name_options_str  += '<option value="B Bārs">B Bārs</option>';
+            Name_options_str  += '<option value="Balodis">Balodis</option>';
+            Name_options_str  += '<option value="Blues House">Blues House</option>';
+            Name_options_str  += '<option value="Bolderāja">Bolderāja</option>';
+            Name_options_str  += '<option value="Brūklene">Brūklene</option>';
+            Name_options_str  += '<option value="Cafe Leningrad">Cafe Leningrad</option>';
+            Name_options_str  += '<option value="Chomsky">Chomsky</option>';
+            Name_options_str  += '<option value="Club Essential">Club Essential</option>';
+            Name_options_str  += '<option value="Collegium Musicum Riga">Collegium Musicum Riga</option>';
+            Name_options_str  += '<option value="ConTakts">ConTakts</option>';
+            Name_options_str  += '<option value="Cuba Cafe">Cuba Cafe</option>';
+            Name_options_str  += '<option value="D27">D27</option>';
+            Name_options_str  += '<option value="DEPO">DEPO</option>';
+            Name_options_str  += '<option value="DJ&apos;s Bārs">DJ&apos;s Bārs</option>';
+            Name_options_str  += '<option value="Daudz Laša">Daudz Laša</option>';
+            Name_options_str  += '<option value="Daugavgrīvas cietoksnis">Daugavgrīvas cietoksnis</option>';
+            Name_options_str  += '<option value="Digital Art House">Digital Art House</option>';
+            Name_options_str  += '<option value="Dēkains">Dēkains</option>';
+            Name_options_str  += '<option value="Echo Sound Bar">Echo Sound Bar</option>';
+            Name_options_str  += '<option value="Fab Cafe">Fab Cafe</option>';
+            Name_options_str  += '<option value="Fiesta">Fiesta</option>';
+            Name_options_str  += '<option value="First Club">First Club</option>';
+            Name_options_str  += '<option value="Folkklubs Ala Pagrabs">Folkklubs Ala Pagrabs</option>';
+            Name_options_str  += '<option value="Fukushima">Fukushima</option>';
+            Name_options_str  += '<option value="Galerija Istaba">Galerija Istaba</option>';
+            Name_options_str  += '<option value="Greenwood bar">Greenwood bar</option>';
+            Name_options_str  += '<option value="H2O 6 kvartāls">H2O 6 kvartāls</option>';
+            Name_options_str  += '<option value="HHC">HHC</option>';
+            Name_options_str  += '<option value="Hanzas Perons">Hanzas Perons</option>';
+            Name_options_str  += '<option value="Hāgensberga Pagalms">Hāgensberga Pagalms</option>';
+            Name_options_str  += '<option value="Hāgenskalna Komūna">Hāgenskalna Komūna</option>';
+            Name_options_str  += '<option value="ISSP">ISSP</option>';
+            Name_options_str  += '<option value="Innocent Cafe">Innocent Cafe</option>';
+            Name_options_str  += '<option value="Jumts aizbraucis">Jumts aizbraucis</option>';
+            Name_options_str  += '<option value="Jāzepa Vītola Latvijas Mūzikas Akadēmija">Jāzepa Vītola Latvijas Mūzikas Akadēmija</option>';
+            Name_options_str  += '<option value="K.K. fon Stricka villa">K.K. fon Stricka villa</option>';
+            Name_options_str  += '<option value="K57">K57</option>';
+            Name_options_str  += '<option value="KASDĀRZĀ">KASDĀRZĀ</option>';
+            Name_options_str  += '<option value="Kabata">Kabata</option>';
+            Name_options_str  += '<option value="Kalnciema Kvartāls">Kalnciema Kvartāls</option>';
+            Name_options_str  += '<option value="Kaņepes Kultūras centrs">Kaņepes Kultūras centrs</option>';
+            Name_options_str  += '<option value="Kitchen Rave">Kitchen Rave</option>';
+            Name_options_str  += '<option value="Klubs Melnā Piektdiena">Klubs Melnā Piektdiena</option>';
+            Name_options_str  += '<option value="Krogs Aptieka">Krogs Aptieka</option>';
+            Name_options_str  += '<option value="Kultūras Nams Atmoda">Kultūras Nams Atmoda</option>';
+            Name_options_str  += '<option value="Kultūras pils "Ziemeļblāzma"">Kultūras pils "Ziemeļblāzma"</option>';
+            Name_options_str  += '<option value="Labietis">Labietis</option>';
+            Name_options_str  += '<option value="Laska Bar">Laska Bar</option>';
+            Name_options_str  += '<option value="Laska V21">Laska V21</option>';
+            Name_options_str  += '<option value="Lastādija">Lastādija</option>';
+            Name_options_str  += '<option value="Latvijas 1.Rokkafejnīca">Latvijas 1.Rokkafejnīca</option>';
+            Name_options_str  += '<option value="Latvijas Kultūras akadēmija">Latvijas Kultūras akadēmija</option>';
+            Name_options_str  += '<option value="Latvijas Mākslas akadēmija">Latvijas Mākslas akadēmija</option>';
+            Name_options_str  += '<option value="Latvijas Nacionālā opera un balets">Latvijas Nacionālā opera un balets</option>';
+            Name_options_str  += '<option value="Lielā Ģilde">Lielā Ģilde</option>';
+            Name_options_str  += '<option value="Liepa">Liepa</option>';
+            Name_options_str  += '<option value="Lodge">Lodge</option>';
+            Name_options_str  += '<option value="Lokal House">Lokal House</option>';
+            Name_options_str  += '<option value="M/Darbnīca">M/Darbnīca</option>';
+            Name_options_str  += '<option value="MASA">MASA</option>';
+            Name_options_str  += '<option value="MAZE">MAZE</option>';
+            Name_options_str  += '<option value="Maldugunsbar">Maldugunsbar</option>';
+            Name_options_str  += '<option value="Mazā Ģilde">Mazā Ģilde</option>';
+            Name_options_str  += '<option value="Mañana">Mañana</option>';
+            Name_options_str  += '<option value="Mežaparka Lielā estrāde">Mežaparka Lielā estrāde</option>';
+            Name_options_str  += '<option value="Minox Cocktailbar">Minox Cocktailbar</option>';
+            Name_options_str  += '<option value="Music Factory A Nice Place">Music Factory A Nice Place</option>';
+            Name_options_str  += '<option value="Mute">Mute</option>';
+            Name_options_str  += '<option value="Möku">Möku</option>';
+            Name_options_str  += '<option value="Mūzikas nams Daile">Mūzikas nams Daile</option>';
+            Name_options_str  += '<option value="NABAKLAB">NABAKLAB</option>';
+            Name_options_str  += '<option value="NOASS">NOASS</option>';
+            Name_options_str  += '<option value="Nemiers">Nemiers</option>';
+            Name_options_str  += '<option value="Northern Grip">Northern Grip</option>';
+            Name_options_str  += '<option value="Nurme Brewery & Taproom">Nurme Brewery & Taproom</option>';
+            Name_options_str  += '<option value="ONE ONE">ONE ONE</option>';
+            Name_options_str  += '<option value="Omas Brilijants">Omas Brilijants</option>';
+            Name_options_str  += '<option value="Paddy Whelan&apos;s Irish Pub">Paddy Whelan&apos;s Irish Pub</option>';
+            Name_options_str  += '<option value="Palladium Riga">Palladium Riga</option>';
+            Name_options_str  += '<option value="Pandemonium">Pandemonium</option>';
+            Name_options_str  += '<option value="Paviljons Ziedoņdārzs">Paviljons Ziedoņdārzs</option>';
+            Name_options_str  += '<option value="Piens">Piens</option>';
+            Name_options_str  += '<option value="Pils">Pils</option>';
+            Name_options_str  += '<option value="Provodņiks">Provodņiks</option>';
+            Name_options_str  += '<option value="Pulkvedim Neviens Neraksta">Pulkvedim Neviens Neraksta</option>';
+            Name_options_str  += '<option value="Purčika Ezītis miglā">Purčika Ezītis miglā</option>';
+            Name_options_str  += '<option value="Pūce, Klubs Naktī">Pūce, Klubs Naktī</option>';
+            Name_options_str  += '<option value="Rapsodija Art Bar">Rapsodija Art Bar</option>';
+            Name_options_str  += '<option value="Republika">Republika</option>';
+            Name_options_str  += '<option value="Riga Jazz Club">Riga Jazz Club</option>';
+            Name_options_str  += '<option value="Robert&apos;s Books">Robert&apos;s Books</option>';
+            Name_options_str  += '<option value="Rocket Bean">Rocket Bean</option>';
+            Name_options_str  += '<option value="Route 66">Route 66</option>';
+            Name_options_str  += '<option value="Rīgas Doms">Rīgas Doms</option>';
+            Name_options_str  += '<option value="Rīgas Kongresu nams">Rīgas Kongresu nams</option>';
+            Name_options_str  += '<option value="Rīgas cirks">Rīgas cirks</option>';
+            Name_options_str  += '<option value="SPELET CONCERT HALL">SPELET CONCERT HALL</option>';
+            Name_options_str  += '<option value="Saint Luke Group">Saint Luke Group</option>';
+            Name_options_str  += '<option value="Saulart">Saulart</option>';
+            Name_options_str  += '<option value="Serviss">Serviss</option>';
+            Name_options_str  += '<option value="Shot Cafe">Shot Cafe</option>';
+            Name_options_str  += '<option value="Skapis">Skapis</option>';
+            Name_options_str  += '<option value="Spacedog">Spacedog</option>';
+            Name_options_str  += '<option value="Sporta 2 kvartāls">Sporta 2 kvartāls</option>';
+            Name_options_str  += '<option value="Spīķeri - radošais kvartāls">Spīķeri - radošais kvartāls</option>';
+            Name_options_str  += '<option value="Spīķeru koncertzāle">Spīķeru koncertzāle</option>';
+            Name_options_str  += '<option value="St.Black">St.Black</option>';
+            Name_options_str  += '<option value="Taka">Taka</option>';
+            Name_options_str  += '<option value="Tallinas pagalms">Tallinas pagalms</option>';
+            Name_options_str  += '<option value="Teritorija Club">Teritorija Club</option>';
+            Name_options_str  += '<option value="Teātra Bārs">Teātra Bārs</option>';
+            Name_options_str  += '<option value="Teātris-klubs „Hamlets”">Teātris-klubs „Hamlets”</option>';
+            Name_options_str  += '<option value="The Botanist">The Botanist</option>';
+            Name_options_str  += '<option value="Tims Mints">Tims Mints</option>';
+            Name_options_str  += '<option value="Totaldobže">Totaldobže</option>';
+            Name_options_str  += '<option value="Tower">Tower</option>';
+            Name_options_str  += '<option value="Trompete/Sidrērija">Trompete/Sidrērija</option>';
+            Name_options_str  += '<option value="Tu Jau Zini Kur">Tu Jau Zini Kur</option>';
+            Name_options_str  += '<option value="VEF Kultūras pils">VEF Kultūras pils</option>';
+            Name_options_str  += '<option value="VEF kvartāls">VEF kvartāls</option>';
+            Name_options_str  += '<option value="Vagonu Hall">Vagonu Hall</option>';
+            Name_options_str  += '<option value="Valmiermuižas alus vēstniecības">Valmiermuižas alus vēstniecības</option>';
+            Name_options_str  += '<option value="Vieta">Vieta</option>';
+            Name_options_str  += '<option value="Vinilbārs">Vinilbārs</option>';
+            Name_options_str  += '<option value="Vunderbars">Vunderbars</option>';
+            Name_options_str  += '<option value="WONDERSALA">WONDERSALA</option>';
+            Name_options_str  += '<option value="Walters & Grapa">Walters & Grapa</option>';
+            Name_options_str  += '<option value="When Coffee Meets Whisky">When Coffee Meets Whisky</option>';
+            Name_options_str  += '<option value="Willa Teātris">Willa Teātris</option>';
+            Name_options_str  += '<option value="Xiaomi Arēna">Xiaomi Arēna</option>';
+            Name_options_str  += '<option value="ZUNDA dārzs">ZUNDA dārzs</option>';
+            Name_options_str  += '<option value="Zapatista Baltica">Zapatista Baltica</option>';
+            Name_options_str  += '<option value="Zebras">Zebras</option>';
+            Name_options_str  += '<option value="Ziemeļu Enkurs">Ziemeļu Enkurs</option>';
+            Name_options_str  += '<option value="Zobens un Lemess">Zobens un Lemess</option>';
+            Name_options_str  += '<option value="Zuzeum">Zuzeum</option>';
+            Name_options_str  += '<option value="de flou">de flou</option>';
+            Name_options_str  += '<option value="eS14">eS14</option>';
+            Name_options_str  += '<option value="lofts">lofts</option>';
+            Name_options_str  += '<option value="Ādmiņu 4">Ādmiņu 4</option>';
+            Name_options_str  += '<option value="Āgenskalna tirgus">Āgenskalna tirgus</option>';
+            Name_options_str  += '<option value="Čē">Čē</option>';
+            Name_options_str  += '<option value="Ģertrūdes ielas teātris">Ģertrūdes ielas teātris</option>';
+            sel_Name.innerHTML = Name_options_str;
+            div_Name.appendChild(sel_Name);
+            var lab_Name = document.createElement('div');
+            lab_Name.innerHTML = 'Name';
+            lab_Name.className = 'filterlabel';
+            div_Name.appendChild(lab_Name);
+            var reset_Name = document.createElement('div');
+            reset_Name.innerHTML = 'clear filter';
+            reset_Name.className = 'filterlabel';
+            reset_Name.onclick = function() {
+                var options = document.getElementById("sel_Name").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Name.appendChild(reset_Name);
+        resetLabels([layer_Apkaimes_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_Apkaimes_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_Apkaimes_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_Apkaimes_1]);
+        });
         </script>
     </body>
 </html>
