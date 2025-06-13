@@ -1041,23 +1041,23 @@
         });
         bounds_group.addLayer(layer_Apkaimes_1);
         function pop_VenueFilters_2(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
+            // layer.on({
+            //     mouseout: function(e) {
+            //         for (var i in e.target._eventParents) {
+            //             if (typeof e.target._eventParents[i].resetStyle === 'function') {
+            //                 e.target._eventParents[i].resetStyle(e.target);
+            //             }
+            //         }
+            //         if (typeof layer.closePopup == 'function') {
+            //             layer.closePopup();
+            //         } else {
+            //             layer.eachLayer(function(feature){
+            //                 feature.closePopup()
+            //             });
+            //         }
+            //     },
+            //     mouseover: highlightFeature,
+            // });
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">Name</th>\
@@ -1088,7 +1088,39 @@
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
 			});
-			layer.bindPopup(content, { maxHeight: 400 });
+			layer.bindPopup(content, {
+                maxHeight: 400,
+                autoClose: false,
+                closeOnClick: false
+                                    });
+
+            // Track click state
+            let clicked = false;
+
+            layer.on('mouseover', function () {
+                if (!clicked) {
+                    layer.openPopup();
+                }
+            });
+
+            layer.on('mouseout', function () {
+                if (!clicked) {
+                    layer.closePopup();
+                }
+            });
+
+            layer.on('click', function () {
+                clicked = true;
+                layer.openPopup();
+            });
+
+            layer.on('popupclose', function () {
+                clicked = false;
+            });
+
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
         }
 
         function style_VenueFilters_2_0(feature) {
@@ -1580,23 +1612,23 @@
         bounds_group.addLayer(layer_VenueFilters_2);
         map.addLayer(layer_VenueFilters_2);
         function pop_Venues_3(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
+            // layer.on({
+            //     mouseout: function(e) {
+            //         for (var i in e.target._eventParents) {
+            //             if (typeof e.target._eventParents[i].resetStyle === 'function') {
+            //                 e.target._eventParents[i].resetStyle(e.target);
+            //             }
+            //         }
+            //         if (typeof layer.closePopup == 'function') {
+            //             layer.closePopup();
+            //         } else {
+            //             layer.eachLayer(function(feature){
+            //                 feature.closePopup()
+            //             });
+            //         }
+            //     },
+            //     mouseover: highlightFeature,
+            // });
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">Name</th>\
@@ -1627,7 +1659,38 @@
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
 			});
-			layer.bindPopup(content, { maxHeight: 400 });
+			layer.bindPopup(content, {
+                maxHeight: 400,
+                autoClose: false,
+                closeOnClick: false
+                                    });
+                                    // Flag to track if popup was manually clicked
+    let clicked = false;
+
+    layer.on('mouseover', function (e) {
+        if (!clicked) {
+            layer.openPopup();
+        }
+    });
+
+    layer.on('mouseout', function (e) {
+        if (!clicked) {
+            layer.closePopup();
+        }
+    });
+
+    layer.on('click', function (e) {
+        clicked = true;
+        layer.openPopup(); // Ensure it's open
+    });
+
+    layer.on('popupclose', function (e) {
+        clicked = false; // Reset when closed manually
+    });
+
+    layer.on('popupopen', function(e) {
+        addClassToPopupIfMedia(content, e.popup);
+    });
         }
 
         function style_Venues_3_0() {
